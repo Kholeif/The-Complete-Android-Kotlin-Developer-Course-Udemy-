@@ -2,6 +2,7 @@ package com.example.zooapplication
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -66,12 +67,12 @@ class MainActivity : AppCompatActivity()
             myview.textView2.text=animal.des!!
             myview.imageView.setImageResource(animal.image!!)
         myview.imageView.setOnClickListener{
-            delete(position)
-//            val ta7weel = Intent(context,AnimalInfo::class.java)
-//            ta7weel.putExtra("name",animal.name!!)
-//            ta7weel.putExtra("des",animal.des!!)
-//            ta7weel.putExtra("image",animal.image!!)
-//            context!!.startActivity(ta7weel)
+//            delete(position)
+            val ta7weel = Intent(context,AnimalInfo::class.java)
+            ta7weel.putExtra("name",animal.name!!)
+            ta7weel.putExtra("des",animal.des!!)
+            ta7weel.putExtra("image",animal.image!!)
+            context!!.startActivity(ta7weel)
         }
             return  myview
         }
