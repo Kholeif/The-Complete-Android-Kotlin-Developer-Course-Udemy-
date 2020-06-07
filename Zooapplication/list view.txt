@@ -1,0 +1,35 @@
+var adapter:AnimalAdapter?=null
+adapter = AnimalAdapter(this , listofanimals)
+listview.adapter = adapter
+
+
+
+
+
+class AnimalAdapter: BaseAdapter 
+{
+    var listofanimals = ArrayList<Animal>()
+    var context: Context?=null
+
+    constructor(context: Context, listofanimals:ArrayList<Animal>):super()
+    {
+        this.listofanimals=listofanimals
+        this.context=context
+    }
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View
+    {
+        var animal = listofanimals[position]
+        var inflator = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        var myview=inflator.inflate(R.layout.animal_ticket,null)
+        myview.textView.text=animal.name!!
+        myview.textView2.text=animal.des!!
+        myview.imageView.setImageResource(animal.image!!)
+        return  myview
+    }
+
+    override fun getCount(): Int 
+    {
+        return listofanimals.size
+    }
+
+}
