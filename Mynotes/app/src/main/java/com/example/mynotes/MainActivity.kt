@@ -62,9 +62,9 @@ class MainActivity : AppCompatActivity() {
         super.onRestart()
         Toast.makeText(this,"onRestart",Toast.LENGTH_LONG).show()
     }
+
+
     fun LoadQuery(title:String){
-
-
 
         var dbManager=DbManager(this)
         val projections= arrayOf("ID","Title","Description")
