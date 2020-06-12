@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_storyboard"
+    app:startDestination="@id/myNotesList_fragent">
+
+    <fragment
+        android:id="@+id/myNotesList_fragent"
+        android:name="com.example.mynotes2.MyNotesList_fragent"
+        android:label="fragment_my_notes_list_fragent"
+        tools:layout="@layout/fragment_my_notes_list_fragent" >
+        <action
+            android:id="@+id/action_myNotesList_fragent_to_addNote_fragment"
+            app:destination="@id/addNote_fragment"
+            app:popUpTo="@id/myNotesList_fragent" />
+    </fragment>
+    <fragment
+        android:id="@+id/addNote_fragment"
+        android:name="com.example.mynotes2.AddNote_fragment"
+        android:label="fragment_add_note_fragment"
+        tools:layout="@layout/fragment_add_note_fragment" >
+        <argument
+            android:name="ID"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="Title"
+            app:argType="string" />
+        <argument
+            android:name="Description"
+            app:argType="string" />
+    </fragment>
+</navigation>
