@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity()
 
     fun playhere(view: View)
     {
-        var id=0
+        var id:Int=0
         when (view.id)
         {
             R.id.button1 -> id=1
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity()
             R.id.button9 -> id=9
         }
 //        playgame(id , view as Button)
-        myRef.child("playonline").child(SessionID!!).child(id.toString()).setValue(myEmail)
+        myRef.child("playonline").child(SessionID!!).child(id.toString()).setValue(myEmail!!.split("@")[0])
     }
 
 
@@ -220,30 +220,52 @@ class MainActivity : AppCompatActivity()
     fun playonline(email1: String , email2:String , context: Context) {
         SessionID=email1.split("@")[0]+email2.split("@")[0]
         myRef.child("playonline").removeValue()
-        myRef.child("playonline").child(SessionID!!).addValueEventListener(object:ValueEventListener{
-            override fun onDataChange(p0: DataSnapshot) {
-                try {
-                    reset(button1) // ay view w 5alas keda keda mish hayesta3melo
-                    val td = p0.value as HashMap<String,Any>
-                    if (td!=null){
-                        var value:String
-                        for (key in td.keys){
-                            value = td[key] as String
-
-                            if(value!=myEmail){
-                                activeplayer = if (PlayerSympol==="X") 1 else 2
-                            }else{
-                                activeplayer = if (PlayerSympol==="X") 2 else 1
+        reset(button1)
+        player1.clear()
+        player2.clear()
+        for (i in 1..9) {
+            myRef.child("playonline").child(SessionID!!).child(i.toString())
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(p0: DataSnapshot) {
+                        val td = p0.getValue(String::class.java)
+                        if (td != null) {
+                            if (td != myEmail!!.split("@")[0]) {
+                                activeplayer = if (PlayerSympol === "X") 1 else 2
+                            } else {
+                                activeplayer = if (PlayerSympol === "X") 2 else 1
                             }
-                            autoplay(key.toInt())
+                            autoplay(i)
                         }
+//                try {
+//                    reset(button1) // ay view w 5alas keda keda mish hayesta3melo
+//                    player1.clear()
+//                    player2.clear()
+//
+//                    val td = p0.value as HashMap<String,String>
+//                    var value:String
+//                    for (key in td.keys){
+//                        value = td[key]!!
+//
+//                        if(value!=myEmail!!.split("@")[0]){
+//                            activeplayer = if (PlayerSympol==="X") 1 else 2
+//                        }else{
+//                            activeplayer = if (PlayerSympol==="X") 2 else 1
+//                        }
+//
+//                        textView2.setText(key)
+//                        textView3.setText(value)
+//
+//                        autoplay(key.toInt())
+//                    }
+//                }catch (ex:Exception){}
                     }
-                }catch (ex:Exception){}
-            }
 
-            override fun onCancelled(p0: DatabaseError) {
-            }
-        })
+                    override fun onCancelled(p0: DatabaseError) {
+                        var error = p0.message
+                        Toast.makeText(applicationContext, error, Toast.LENGTH_LONG).show()
+                    }
+                })
+        }
     }
 
 
@@ -269,8 +291,7 @@ class MainActivity : AppCompatActivity()
                 }catch (ex:Exception){}
             }
 
-            override fun onCancelled(p0: DatabaseError) {
-            }
+            override fun onCancelled(p0: DatabaseError) {}
         })
     }
 }
